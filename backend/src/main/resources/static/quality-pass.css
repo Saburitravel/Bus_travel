@@ -1,0 +1,84 @@
+/* Saburi Swami Travel — cross-site UI quality pass.
+   Loaded last on public, admin and authentication pages. No business logic changes. */
+:root{--ui-ink:#14233b;--ui-muted:#596b82;--ui-line:#dce5f0;--ui-blue:#155eef;--ui-blue-dark:#1049c6;--ui-red:#e83f59;--ui-red-dark:#c92f48;--ui-surface:#fff;--ui-soft:#f3f7fd;--ui-focus:rgba(21,94,239,.28)}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}body{color:var(--ui-ink)}
+/* Links: no inherited pale text on light surfaces. */
+a{color:var(--ui-blue)}a:hover{color:var(--ui-blue-dark)}
+.topbar{background:#fff!important;color:var(--ui-ink)!important}
+.topbar nav a:not(.login-link):not(.signup-link){color:#263750!important;opacity:1!important;text-shadow:none!important}
+.topbar nav a:not(.login-link):not(.signup-link):hover,.topbar nav a.is-current:not(.login-link):not(.signup-link),.topbar nav a[aria-current="page"]:not(.login-link):not(.signup-link){color:var(--ui-blue)!important;background:#edf4ff!important}
+.topbar nav .login-link{display:inline-flex;align-items:center;justify-content:center;color:#17345e!important;background:#fff!important;border:1px solid #bdcde1!important;min-height:42px;border-radius:11px;opacity:1!important}
+.topbar nav .signup-link{display:inline-flex;align-items:center;justify-content:center;color:#fff!important;background:var(--ui-red)!important;border:1px solid var(--ui-red)!important;min-height:42px;border-radius:11px;opacity:1!important}
+/* Controls share predictable contrast, shape and disabled treatment. */
+button,.primary,.secondary,.chip,.pay-method,.stop-icon-btn{cursor:pointer}
+button:disabled,button[aria-disabled="true"],.disabled{cursor:not-allowed!important;opacity:.58!important;filter:saturate(.65)}
+.primary,button.primary,.login-submit,#payBtn{background:linear-gradient(135deg,var(--ui-red),var(--ui-red-dark))!important;color:#fff!important;border:1px solid var(--ui-red-dark)!important;font-weight:800!important}
+.secondary,button.secondary{background:#fff!important;color:#17345e!important;border:1px solid #c8d5e5!important;font-weight:750!important}
+input,select,textarea{color:var(--ui-ink)!important;background:#fff!important;border-color:#cbd7e6!important;min-width:0}
+input::placeholder,textarea::placeholder{color:#718198!important;opacity:1}
+label{color:#40536c}
+:focus-visible{outline:3px solid var(--ui-focus)!important;outline-offset:2px!important}
+/* Card and result text hierarchy. */
+.panel,.bus-card,.route-item,.running-bus-card,.booking-item,.metric,.ticket-modal-panel{min-width:0}
+.panel p,.page-title p,.section-subtitle{color:#596b82}
+.bus-card small,.time-block small,.bus-name small{color:#5e6e83}
+.status,.tag,.offer-badge{font-weight:800}
+/* Booking and seat selection. */
+.seat{touch-action:manipulation}
+.seat.available{background:#fff;color:#243a56;border:1px solid #9eb1c9}
+.seat.selected{background:var(--ui-blue)!important;color:#fff!important;border-color:var(--ui-blue)!important}
+.seat.booked,.seat.unavailable{background:#e7ebf1!important;color:#596579!important;border-color:#cbd3df!important}
+.seat-legend,.legend{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.pay-method{min-width:0;color:#243a56}
+.pay-method.active{color:#1049c6!important;border:2px solid #7fa9ed!important;background:#edf4ff!important}
+/* Admin: retain dark sidebar, ensure all labels and controls remain legible. */
+.admin-sidebar{color:#fff}
+.admin-sidebar nav button{color:#e4ecf8!important;min-height:42px;text-align:left}
+.admin-sidebar nav button.active{color:#fff!important}
+.admin-main{min-width:0}
+.admin-main input,.admin-main select,.admin-main textarea{color:var(--ui-ink)!important}
+.admin-main table{width:100%}
+.table-wrap{max-width:100%;overscroll-behavior-x:contain}
+.modal-backdrop{padding:16px;overflow:auto}
+.modal{width:min(680px,100%);max-height:calc(100dvh - 32px);overflow:auto}
+/* Popular routes: prominent, photo-backed booking cards. */
+body[data-start-page="home"] #popularRoutes{display:grid;grid-template-columns:minmax(0,1fr)!important;gap:16px}
+body[data-start-page="home"] #popularRoutes .route-item{position:relative;isolation:isolate;display:block;width:100%;min-height:292px;padding:24px;overflow:hidden;text-align:left;color:#122342;background:#fff;border:1px solid #e4eaf3;border-radius:22px;box-shadow:0 12px 30px rgba(13,36,76,.1);transition:transform .2s,box-shadow .2s,border-color .2s}
+body[data-start-page="home"] #popularRoutes .route-item:hover{transform:translateY(-3px);border-color:#d3ddec;box-shadow:0 18px 38px rgba(13,36,76,.16)}
+body[data-start-page="home"] #popularRoutes .route-item::before{content:"";position:absolute;inset:0;z-index:-1;width:auto;height:auto;margin:0;border:0;background-image:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.98) 37%,rgba(255,255,255,.8) 53%,rgba(255,255,255,.05) 78%),linear-gradient(0deg,rgba(5,17,37,.92) 0%,rgba(5,17,37,.52) 23%,transparent 53%),url("https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1500&q=85");background-position:center;background-size:cover}
+body[data-start-page="home"] #popularRoutes .route-card-content{position:relative;z-index:1;display:flex;width:min(56%,520px);min-height:242px;flex-direction:column;align-items:flex-start}
+body[data-start-page="home"] #popularRoutes .route-popular-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;background:#0756c9;color:#fff;font-size:12px;font-weight:800;line-height:1}
+body[data-start-page="home"] #popularRoutes .route-popular-badge>span{color:#69b5ff;font-size:14px}
+body[data-start-page="home"] #popularRoutes .route-title{display:block;margin:11px 0 2px;color:#0b1f44;font-size:clamp(25px,3vw,34px);font-weight:900;line-height:1.12;letter-spacing:-.8px}
+body[data-start-page="home"] #popularRoutes .route-title>span{padding-inline:3px;color:#172d50}
+body[data-start-page="home"] #popularRoutes .route-tagline{color:#718096;font-size:13px;font-weight:550}
+body[data-start-page="home"] #popularRoutes .route-journey{display:flex;width:100%;align-items:center;gap:10px;margin:17px 0 16px}
+body[data-start-page="home"] #popularRoutes .route-stop{display:flex;min-width:0;align-items:center;gap:8px}
+body[data-start-page="home"] #popularRoutes .route-pin{color:#fa3658;font-size:19px;line-height:1}
+body[data-start-page="home"] #popularRoutes .route-stop>span:last-child{display:grid;gap:2px}
+body[data-start-page="home"] #popularRoutes .route-stop strong{overflow:hidden;color:#17243d;font-size:12px;text-overflow:ellipsis;white-space:nowrap}
+body[data-start-page="home"] #popularRoutes .route-stop small{color:#748197;font-size:10px}
+body[data-start-page="home"] #popularRoutes .route-connector{position:relative;display:flex;min-width:36px;flex:1;align-items:center;justify-content:center;border-top:2px dashed #d2dce9;color:#1478ed}
+body[data-start-page="home"] #popularRoutes .route-connector span{position:absolute;top:50%;display:grid;width:27px;height:24px;place-items:center;transform:translateY(-50%);background:#fff;color:#1478ed;font-size:18px}
+body[data-start-page="home"] #popularRoutes .route-booking-row{display:flex;width:100%;align-items:stretch;gap:12px;margin-top:auto}
+body[data-start-page="home"] #popularRoutes .route-fare{display:flex;min-width:132px;flex-direction:column;justify-content:center;padding:8px 14px;border:1px solid #f9e3e7;border-radius:13px;background:rgba(255,239,241,.94)}
+body[data-start-page="home"] #popularRoutes .route-fare small{color:#795c64;font-size:9px;font-weight:800;letter-spacing:.55px;text-transform:uppercase}
+body[data-start-page="home"] #popularRoutes .route-fare strong{color:#101d35;font-size:25px;font-weight:900;line-height:1.15}
+body[data-start-page="home"] #popularRoutes .route-action{display:flex;min-height:50px;flex:1;align-items:center;justify-content:center;gap:12px;padding:10px 15px;border:0;border-radius:13px;background:linear-gradient(110deg,#f72d4b,#fb2144);box-shadow:0 7px 16px rgba(241,39,71,.26);color:#fff;font-size:15px;font-weight:850}
+body[data-start-page="home"] #popularRoutes .route-action>span{color:#fff;font-size:20px;line-height:1}
+body[data-start-page="home"] #popularRoutes .route-trust{position:absolute;right:18px;bottom:17px;z-index:1;display:flex;width:42%;align-items:stretch;gap:7px}
+body[data-start-page="home"] #popularRoutes .route-trust-item{display:flex;min-width:0;flex:1;align-items:center;gap:7px;padding:9px 8px;border:1px solid rgba(255,255,255,.08);border-radius:13px;background:rgba(7,18,35,.76);color:#fff;backdrop-filter:blur(8px)}
+body[data-start-page="home"] #popularRoutes .route-trust-icon{display:grid;width:29px;height:29px;flex:0 0 29px;place-items:center;border-radius:50%;background:rgba(243,45,77,.18);color:#ff4663;font-size:16px;font-weight:900}
+body[data-start-page="home"] #popularRoutes .route-trust-item:nth-child(2) .route-trust-icon{background:rgba(18,115,239,.22);color:#48a0ff}
+body[data-start-page="home"] #popularRoutes .route-trust-item:nth-child(3) .route-trust-icon{background:rgba(15,192,112,.18);color:#27d98a}
+body[data-start-page="home"] #popularRoutes .route-trust-item>span:last-child{display:grid;min-width:0;gap:2px}
+body[data-start-page="home"] #popularRoutes .route-trust-item strong{overflow:hidden;color:#fff;font-size:10px;line-height:1.2;text-overflow:ellipsis;white-space:nowrap}
+body[data-start-page="home"] #popularRoutes .route-trust-item small{color:#c4ccda;font-size:9px;line-height:1.2}
+/* Mobile/tablet: prevent fixed-width layouts from pushing the whole viewport. */
+img,svg,video{max-width:100%}
+@media(max-width:900px){.content-wrap,.results-layout{width:calc(100% - 32px)}.checkout-layout,.admin-two-col{grid-template-columns:minmax(0,1fr)!important}.summary{position:static}.admin-main{padding:20px!important}.admin-sidebar{z-index:80}.stop-management-grid{grid-template-columns:minmax(0,1fr)}.table-wrap{overflow-x:auto}}
+@media(max-width:760px){.topbar{min-height:64px;height:auto;flex-wrap:wrap;gap:10px}.topbar nav:not(.mobile-open){display:none!important}.topbar nav.mobile-open{display:flex!important;order:5;width:100%;flex-direction:column;align-items:stretch;gap:5px;padding:10px;background:#fff;border:1px solid var(--ui-line);border-radius:14px}.topbar nav.mobile-open a{display:flex;min-height:42px;align-items:center;padding:9px 12px}.mobile-menu-toggle{display:inline-flex!important;align-items:center;justify-content:center;min-width:42px;min-height:42px;margin-left:auto;color:#17345e!important;background:#edf4ff!important;border:1px solid #cbd8e9!important;border-radius:10px}.search-grid{grid-template-columns:minmax(0,1fr)!important}.search-grid>*{grid-column:auto!important;grid-row:auto!important}.search-grid .swap-btn{justify-self:center}.search-grid .primary{min-height:46px!important;width:100%}.payment-methods{grid-template-columns:1fr!important}.ticket-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ticket-details{grid-template-columns:1fr}.ticket-details>div+div{border-left:0;padding-left:0;border-top:1px solid var(--ui-line);padding-top:12px}.route-stop-item{min-width:0}.stop-route-context{align-items:stretch;flex-direction:column}.stop-route-context>label{min-width:0}}
+@media(max-width:600px){body[data-start-page="home"] #popularRoutes .route-item{min-height:350px;padding:19px 16px 98px;border-radius:18px}body[data-start-page="home"] #popularRoutes .route-item::before{background-image:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.97) 56%,rgba(255,255,255,.44) 100%),linear-gradient(0deg,rgba(5,17,37,.94) 0%,rgba(5,17,37,.55) 27%,transparent 52%),url("https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=900&q=85");background-position:center,center,62% center}body[data-start-page="home"] #popularRoutes .route-card-content{width:100%;min-height:228px}body[data-start-page="home"] #popularRoutes .route-title{font-size:clamp(23px,7vw,30px)}body[data-start-page="home"] #popularRoutes .route-tagline{font-size:11px}body[data-start-page="home"] #popularRoutes .route-journey{gap:7px;margin:14px 0}body[data-start-page="home"] #popularRoutes .route-stop{gap:5px}body[data-start-page="home"] #popularRoutes .route-stop strong{max-width:100px;font-size:11px}body[data-start-page="home"] #popularRoutes .route-booking-row{gap:8px}body[data-start-page="home"] #popularRoutes .route-fare{min-width:112px;padding:7px 10px}body[data-start-page="home"] #popularRoutes .route-fare strong{font-size:22px}body[data-start-page="home"] #popularRoutes .route-action{min-height:46px;gap:6px;padding:8px;font-size:13px}body[data-start-page="home"] #popularRoutes .route-trust{right:10px;bottom:10px;left:10px;width:auto;gap:5px}body[data-start-page="home"] #popularRoutes .route-trust-item{justify-content:center;gap:4px;padding:7px 4px}body[data-start-page="home"] #popularRoutes .route-trust-icon{width:22px;height:22px;flex-basis:22px;font-size:12px}body[data-start-page="home"] #popularRoutes .route-trust-item strong{font-size:8px}body[data-start-page="home"] #popularRoutes .route-trust-item small{font-size:7px}}
+@media(max-width:520px){.content-wrap,.results-layout{width:calc(100% - 24px)}.page-title{flex-wrap:wrap}.page-title h1{font-size:clamp(23px,7vw,30px)}.bus-card{grid-template-columns:minmax(0,1fr) auto!important}.bus-card>*{min-width:0}.booking-item{grid-template-columns:minmax(0,1fr)!important}.form-grid,.stop-form-grid{grid-template-columns:minmax(0,1fr)!important}.stop-form-grid .wide{grid-column:auto}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ticket-modal{padding:6px}.ticket-modal-panel{padding:12px}.ticket-footer{grid-template-columns:1fr}.ticket-thanks{grid-column:auto;grid-row:auto}.admin-main{padding:14px!important}.admin-top{align-items:flex-start;gap:10px;flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

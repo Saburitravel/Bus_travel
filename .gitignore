@@ -1,0 +1,24 @@
+﻿
+.env
+.env.*
+!.env.example
+
+# Java / Maven build output
+**/target/
+
+# Node.js dependencies and build output
+**/node_modules/
+dist/
+build/
+
+# IDE settings
+.idea/
+.vscode/
+
+# Local logs and debug files
+backend-error.txt
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#153E75">
+  <title>Saburi Swami Travel | Admin</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand-theme.css">
+  <link rel="stylesheet" href="final-polish.css">
+  <link rel="stylesheet" href="quality-pass.css">
+</head>
+<body class="admin-body">
+  <aside class="admin-sidebar">
+    <div class="admin-brand"><span>SABURI SWAMI TRAVEL</span></div>
+    <nav id="adminNav">
+      <button data-admin-page="dashboard" class="active">Dashboard</button>
+      <button data-admin-page="buses">Bus management</button>
+      <button data-admin-page="routes">Route management</button><button data-admin-page="stops">Stop management</button>
+      <button data-admin-page="schedules">Schedule management</button>
+      <button data-admin-page="bookings">Booking management</button>
+      <button data-admin-page="users">User management</button>
+      <button data-admin-page="payments">Payments & revenue</button>
+      <button data-admin-page="reports">Reports & settings</button>
+    </nav>
+    <a class="back-site" href="index.html">← Customer site</a>
+  <a href="javascript:logout()" style="display:block;margin-top:20px;color:#03557b;text-decoration:none;font-size:10px;font-weight:800;">Logout</a>
+</aside>
+
+  <main class="admin-main">
+    <header class="admin-top"><div><span class="eyebrow">ADMIN PORTAL</span><h1 id="adminPageTitle">Dashboard</h1></div><div class="admin-user"><span>Admin</span><b>A</b></div></header>
+
+    <section data-admin-view="dashboard" class="admin-view">
+      <div class="metric-grid"><div class="metric"><span>Today's bookings</span><b>0</b><em>+12.8%</em></div><div class="metric"><span>Today's revenue</span><b>₹0</b><em>+9.4%</em></div><div class="metric"><span>Active buses</span><b>0</b><em>4 maintenance</em></div><div class="metric"><span>Occupancy</span><b>0%</b><em>+3.2%</em></div></div>
+      <div class="admin-two-col"><div class="panel chart-panel"><h2>Booking trend</h2><div class="bar-chart" id="bookingChart"></div></div><div class="panel quick-panel"><h2>Quick actions</h2><button class="primary" data-open-modal="bus">+ Add bus</button><button class="secondary" data-open-modal="route">+ Create route</button><button class="secondary" data-open-modal="schedule">+ New schedule</button><button class="secondary" id="exportBookings">Export bookings</button></div></div>
+    </section>
+
+    <section data-admin-view="buses" class="admin-view hidden"><div class="toolbar"><div></div><button class="primary" data-open-modal="bus">+ ADD BUS</button></div><div class="panel table-wrap"><table><thead><tr><th>Bus</th><th>Operator</th><th>Type</th><th>Route</th><th>Status</th><th>Total seats</th><th>Registration</th><th>Action</th></tr></thead><tbody id="busTable"></tbody></table></div></section>
+
+    <section data-admin-view="routes" class="admin-view hidden"><div class="toolbar"><div></div><button class="primary" data-open-modal="route">+ ADD ROUTE</button></div><div class="panel table-wrap"><table><thead><tr><th>ID</th><th>Origin</th><th>Destination</th><th>Distance</th><th>Stops</th><th>Status</th><th>Duration</th><th>Action</th></tr></thead><tbody id="routeTable"></tbody></table></div></section>
+
+    <section data-admin-view="stops" class="admin-view hidden">
+      <div class="toolbar stop-page-heading">
+        <div><span class="eyebrow">ROUTES & PRICING</span><h2 style="margin:6px 0 0">Route Stop & Fare Management</h2><p style="margin:5px 0 0;color:#64748b;font-size:12px">Manage the route stops and configure every boarding-to-destination fare independently. No fares are calculated automatically.</p></div>
+      </div>
+      <div class="panel stop-route-context">
+        <label for="stopRouteSelect">Selected route<select id="stopRouteSelect"><option value="">Loading routes…</option></select></label>
+        <div class="stop-context-actions"><button class="secondary" id="addStopBtn" type="button">＋ Add Stop</button><button class="primary" id="addFareBtn" type="button">＋ Add Fare</button></div>
+      </div>
+      <div class="stop-management-grid">
+        <section class="panel stop-section"><div class="stop-section-head"><div><h3>Route stops</h3><p>Add, edit, remove, or reorder the stops on this route.</p></div><span class="stop-count" id="stopCountBadge">0 stops</span></div><div id="routeStopsList" class="route-stops-list"><div class="stop-empty">Select a route to manage its stops.</div></div></section>
+        <section class="panel stop-section"><div class="stop-section-head"><div><h3>Configured fares</h3><p>Each fare is independent. Edit or delete one without changing any other fare.</p></div><span class="stop-count" id="fareCountBadge">0 fares</span></div><div id="routeFaresList" class="route-fares-list"><div class="stop-empty">Select a route to manage its fares.</div></div><div class="stop-section-footer"><span>Missing fares cannot be booked until an admin configures them.</span><button class="primary" id="addFareFooterBtn" type="button">＋ Add Fare</button></div></section>
+      </div>
+    </section>
+
+<section data-admin-view="schedules" class="admin-view hidden"><div class="toolbar"><div></div><button class="primary" data-open-modal="schedule">+ NEW SCHEDULE</button></div><div class="panel table-wrap"><table><thead><tr><th>Bus</th><th>Route</th><th>Depart</th><th>Arrive</th><th>Route fare (from Stop Management)</th><th>Seats</th><th>Status</th><th>Action</th></tr></thead><tbody id="scheduleTable"></tbody></table></div></section>
+<section data-admin-view="bookings" class="admin-view hidden"><div class="toolbar"><div class="admin-filters"><button class="chip active" data-booking-filter="all">ALL</button><button class="chip" data-booking-filter="Pending">PENDING PAYMENT</button><button class="chip" data-booking-filter="Confirmed">CONFIRMED</button><button class="chip" data-booking-filter="Cancelled">CANCELLED</button></div></div><div class="panel table-wrap"><table><thead><tr><th>Booking</th><th>Customer</th><th>Route</th><th>Seats</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead><tbody id="adminBookingTable"></tbody></table></div></section>
+
+    <section data-admin-view="users" class="admin-view hidden"><div class="toolbar"></div><div class="panel table-wrap"><table><thead><tr><th>Customer</th><th>Email</th><th>Mobile</th><th>Bookings</th><th>Joined</th><th>Status</th></tr></thead><tbody id="userTable"></tbody></table></div></section>
+
+    <section data-admin-view="payments" class="admin-view hidden"><div class="metric-grid"><div class="metric"><span>Today</span><b>₹0</b><em>+11.6%</em></div><div class="metric"><span>This week</span><b>₹0</b><em>+8.9%</em></div><div class="metric"><span>Refunds</span><b>₹0</b><em>-4.2%</em></div><div class="metric"><span>Success rate</span><b>0%</b><em>+0.7%</em></div></div><div class="admin-two-col"><div class="panel chart-panel"><h2>Daily revenue</h2><div class="bar-chart revenue-chart" id="revenueChart"></div></div><div class="panel"><h2>Recent transactions</h2><div id="transactions" class="transaction-list"></div></div></div></section>
+
+    <section data-admin-view="reports" class="admin-view hidden"><div class="admin-two-col"><div class="panel"><h2>Report center</h2><div class="report-list"><button>Booking report <span>EXPORT</span></button><button>Revenue report <span>EXPORT</span></button><button>Occupancy report <span>EXPORT</span></button><button>Cancellation report <span>EXPORT</span></button></div></div><div class="panel"><h2>Platform settings</h2><label class="toggle-row">SMS notifications <input type="checkbox" checked></label><label class="toggle-row">Email confirmations <input type="checkbox" checked></label><label class="toggle-row">Auto-cancel unpaid holds <input type="checkbox" checked></label><label class="toggle-row">Maintenance mode <input type="checkbox"></label><button class="primary">SAVE CHANGES</button></div></div></section>
+  </main>
+
+  <div id="modalBackdrop" class="modal-backdrop hidden"><div class="modal"><div class="modal-head"><h2 id="modalTitle">Add</h2><button id="closeModal">×</button></div><form id="adminForm"></form></div></div>
+  <div id="toast" class="toast"></div>
+  <script src="auth.js"></script>
+<script src="backend-sync.js"></script>
+<script src="admin.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    if(typeof protectPage === "function"){
+        protectPage("admin");
+    }
+});
+</script>
+
+</body>
+</html>

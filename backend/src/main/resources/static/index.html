@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Book bus tickets with Saburi Swami Travel. Search routes, compare services, select seats, and manage your trips online.">
+  <meta name="theme-color" content="#153E75">
+  <title>Saburi Swami Travel | Bus Booking</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="customer-redesign.css">
+<style>
+        .login-link{
+            color:#03557b !important;
+            border:1px solid #03557b;
+            padding:8px 14px;
+            border-radius:6px;
+            font-weight:800;
+        }
+        </style>
+        <style>
+.tracking-top{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px}.tracking-top small{display:block;color:#777;font-size:9px;margin-bottom:5px}.tracking-top strong{font-size:14px}.tracking-map{border:1px solid #eee;border-radius:14px;padding:32px 20px;margin-bottom:20px;background:#fafafa}.route-line{display:flex;align-items:center;gap:0}.route-line:before{content:"";height:6px;flex:1;background:#ddd}.route-line:after{content:"";height:6px;flex:1;background:#ddd}.route-dot,.bus-marker{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid #03557b;position:relative;z-index:2}.bus-marker{border-color:#222;font-size:18px}.track-labels{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:#555}.progress-meta{display:flex;justify-content:space-between;margin-bottom:8px;font-size:11px}.progress-bar{height:10px;background:#eee;border-radius:999px;overflow:hidden}.progress-bar i{display:block;height:100%;width:42%;background:#03557b}.tracking-actions{display:flex;align-items:center;gap:14px;margin-top:20px}.tracking-note{font-size:10px;color:#777}@media(max-width:700px){.tracking-top{grid-template-columns:1fr}.tracking-actions{flex-direction:column;align-items:stretch}}
+</style>
+<link rel="stylesheet" href="brand-theme.css">
+  <link rel="stylesheet" href="final-polish.css">
+  <link rel="stylesheet" href="quality-pass.css">
+</head>
+<body data-start-page="home">
+  <header class="topbar">
+    <a class="brand" href="#home"><span>SABURI SWAMI TRAVEL</span></a>
+    <nav id="customerNav" aria-label="Main navigation">
+        <a data-nav-page="home" href="#" onclick="showPage('home');return false;">Home</a>
+        <a data-nav-page="routes" href="#popularRoutes" onclick="showPage('home');setActiveCustomerNav('results');setTimeout(()=>document.getElementById('popularRoutes')?.scrollIntoView({behavior:'smooth',block:'center'}),80);return false;">Routes</a>
+        <a data-nav-page="offers" href="#" onclick="showPage('offers');return false;">Offers</a>
+        <a data-nav-page="trips" href="#" onclick="showBookings();return false;">My Trips</a>
+        <a data-nav-page="help" href="#" onclick="showPage('support');return false;">Help</a>
+        <a data-nav-page="account" href="login.html" class="login-link" id="accountLink" aria-label="Account and sign in">Account</a>
+        <a data-nav-page="signup" href="login.html?mode=signup" class="signup-link">Sign Up</a>
+    </nav>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" type="button" aria-expanded="false" aria-controls="customerNav" aria-label="Open navigation menu">☰</button>
+  </header>
+
+  <main id="customerApp">
+    <section id="home" class="hero-page page">
+      <div class="hero-band">
+        <div class="hero-copy">
+          <span class="eyebrow trust-badge">✓ TRUSTED BUS TRAVEL</span>
+          <h1>Your Journey <strong>Our Priority</strong></h1>
+          <p>Book bus tickets easily and travel with comfort,<br> safety and trust.</p>
+        </div>
+        <div class="search-card">
+          <div class="search-grid">
+            <label>FROM<select id="fromCity" required><option value="">Select origin</option></select></label>
+            <button class="swap-btn" id="swapBtn" aria-label="Swap cities">⇄</button>
+            <label>TO<select id="toCity" required><option value="">Select destination</option></select></label>
+            <label>DATE<input id="travelDate" type="date"></label>
+            <button class="primary large" id="searchBtn">SEARCH BUSES</button>
+          </div>
+          <div class="chips">
+            <button class="chip active" data-filter="all">All</button>
+            <button class="chip" data-filter="AC">AC</button>
+            <button class="chip" data-filter="Sleeper">Sleeper</button>
+            <button class="chip" data-filter="Seater">Seater</button>
+          </div>
+        </div>
+      </div>
+      <div class="service-highlights" aria-label="Why travel with Saburi Swami">
+        <div class="service-highlight"><span class="highlight-icon">✥</span><strong>Wide Network</strong><small>Multiple routes</small></div>
+        <div class="service-highlight"><span class="highlight-icon">♧</span><strong>Safe &amp; Secure</strong><small>Trusted travel</small></div>
+        <div class="service-highlight"><span class="highlight-icon">▣</span><strong>Easy Booking</strong><small>Quick &amp; hassle free</small></div>
+        <div class="service-highlight"><span class="highlight-icon">₹</span><strong>Best Prices</strong><small>Value for money</small></div>
+      </div>
+      <div class="content-wrap">
+        <article class="panel routes-panel">
+          <div class="panel-head"><h2>Popular Routes</h2><a href="#popularRoutes" aria-label="Explore popular routes" onclick="event.preventDefault();document.getElementById('popularRoutes')?.scrollIntoView({behavior:'smooth',block:'center'});setActiveCustomerNav('results')">Explore Routes →</a></div>
+          <div id="popularRoutes" class="route-list"></div>
+        </article>
+      </div>
+      <div class="content-wrap">
+        <article class="panel running-panel">
+          <div class="panel-head"><div><h2>Today's Running Buses</h2><p class="section-subtitle">Upcoming buses for today across all routes</p></div><a class="offer-badge running-view-all" href="#todaysRunningBuses" aria-label="Jump to today’s running buses">VIEW ALL BUSES →</a></div>
+          <div id="todaysRunningBuses" class="bus-list"><div class="panel"><p>Loading today's buses…</p></div></div>
+        </article>
+      </div>
+      <section class="why-travel-section" aria-labelledby="whyTravelTitle">
+        <div class="why-travel-inner">
+          <h2 id="whyTravelTitle">Why Travel with Saburi Swami?</h2>
+          <div class="why-travel-grid">
+            <article><span>♙</span><strong>Safe Journey</strong><small>Your safety is our priority</small></article>
+            <article><span>🚌</span><strong>Comfortable Buses</strong><small>Clean and well-maintained</small></article>
+            <article><span>♧</span><strong>Easy Booking</strong><small>Book in just a few clicks</small></article>
+            <article><span>₹</span><strong>Best Prices</strong><small>Affordable and transparent</small></article>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="results" class="page hidden">
+      <div class="content-wrap">
+        <div class="page-title"><div><span class="eyebrow">SEARCH RESULTS</span><h1 id="resultTitle">Nashik → Kopargaon</h1><p id="resultMeta"></p></div><button class="secondary" data-back-home>Back</button></div>
+        <div class="results-layout">
+          <aside class="filter-panel panel">
+            <h2>Filter results</h2>
+            <label>Bus type<select id="busFilter"><option value="all">Any</option><option>AC</option><option>Sleeper</option><option>Seater</option></select></label>
+            <label>Departure<select id="timeFilter"><option value="all">Any time</option><option value="morning">Before 12 PM</option><option value="evening">12 PM – 8 PM</option><option value="night">After 8 PM</option></select></label>
+            <label>Sort<select id="sortFilter"><option value="departure">Departure</option><option value="price">Price</option><option value="rating">Rating</option></select></label>
+          </aside>
+          <div id="busList" class="bus-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="seats" class="page hidden">
+      <div class="seat-selection-page">
+        <header class="seat-flow-header">
+          <div class="seat-route-heading">
+            <strong><span id="seatRouteFrom"></span><span class="seat-route-arrow" aria-hidden="true">→</span><span id="seatRouteTo"></span></strong>
+            <p id="seatTripMeta"></p>
+          </div>
+          <ol class="seat-progress" aria-label="Booking progress">
+            <li class="active" aria-current="step"><i>1</i><span>Select Seats</span></li>
+            <li><i>2</i><span>Passenger Details</span></li>
+            <li><i>3</i><span>Payment</span></li>
+            <li><i>4</i><span>Confirmation</span></li>
+          </ol>
+          <div class="seat-departure-card">
+            <span class="departure-clock" aria-hidden="true">◷</span>
+            <span><small>Departure</small><b id="seatDepartureTime"></b><small id="seatDepartureDate"></small></span>
+          </div>
+        </header>
+        <div class="seat-selection-content">
+          <div class="seat-selection-title">
+            <div><h1>Select Your Seats</h1><p id="seatBusInfo">Choose your preferred seats from the layout below</p></div>
+            <div class="seat-legend" aria-label="Seat availability">
+              <span><i class="seat available"></i>Available</span>
+              <span><i class="seat booked"></i>Booked</span>
+              <span><i class="seat selected"></i>Selected</span>
+              <span><i class="seat held"></i>Temporarily held</span>
+              <button class="secondary" data-back-results>Back</button>
+            </div>
+          </div>
+          <div class="bus-scroll" aria-label="Bus seat layout">
+            <div class="bus-body">
+              <div class="bus-front">
+                <div class="bus-windshield" aria-hidden="true"></div>
+                <div class="driver-area" aria-label="Driver area">
+                  <span class="steering-wheel" aria-hidden="true"></span>
+                  <span class="driver-seat" aria-hidden="true"></span>
+                  <small>Driver</small>
+                </div>
+                <span class="front-label">Front</span>
+              </div>
+              <div class="bus-cabin">
+                <div id="seatMap" class="seat-map" aria-live="polite"></div>
+              </div>
+              <div class="bus-rear" aria-label="Restroom and accessibility area">
+                <div class="rear-icon" aria-label="Restroom"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="12" cy="8" r="3.2"></circle><circle cx="27" cy="8" r="3.2"></circle><path d="M8 14h8v12h-3v9H9v-9H7V17a3 3 0 0 1 1-3zm15 0h8l4 12h-4l-2-6v15h-4v-9h-3V17a3 3 0 0 1 1-3z"></path></svg></div>
+                <div class="rear-storage" aria-hidden="true"></div>
+                <div class="rear-icon wheelchair" aria-label="Accessible area"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="14" cy="7" r="3"></circle><path d="M13 13h7l2 9h8v4H19l-2-8-4 1v7h-4V16a3 3 0 0 1 4-3z"></path><circle cx="15" cy="29" r="7" fill="none" stroke="currentColor" stroke-width="3"></circle><path d="M22 29h9l-3 5h-9" fill="none" stroke="currentColor" stroke-width="3"></path></svg></div>
+              </div>
+              <div class="bus-door-marker" aria-label="Entrance"><i aria-hidden="true"></i><small>Door</small></div>
+            </div>
+          </div>
+          <div class="seat-selection-summary">
+            <div class="selected-heading"><span class="selected-seat-icon" aria-hidden="true">▣</span><b>Selected Seats</b></div>
+            <div id="seatSummary" aria-live="polite"></div>
+            <div class="selected-count"><span class="people-icon" aria-hidden="true">♙♙</span><span>Total Seats<b id="selectedSeatCount">0</b></span></div>
+            <button class="primary" id="continuePassenger" type="button" disabled>Confirm Selection <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="passenger" class="page hidden">
+      <div class="content-wrap">
+        <div class="page-title"><div><span class="eyebrow">STEP 3 OF 5</span><h1>Passenger details</h1><p>Enter details for the selected seats.</p></div><button class="secondary" data-back-seats>Back</button></div>
+        <div class="checkout-layout">
+          <form id="passengerForm" class="panel form-panel">
+            <h2>Passenger details</h2>
+            <p style="font-size:10px;color:#777">Enter details for every selected seat.</p>
+            <div id="passengerFields"></div>
+          </form>
+          <aside class="panel summary"><h2>Fare summary</h2><div id="passengerSummary"></div><button class="primary full" form="passengerForm">PROCEED TO PAY</button></aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="payment" class="page hidden">
+      <div class="content-wrap">
+        <div class="page-title"><div><span class="eyebrow">STEP 4 OF 5</span><h1>Payment</h1><p>UPI is available now. Card and Net Banking are temporarily under maintenance. UPI payments are manually verified by the admin before your booking can be confirmed.</p></div><button class="secondary" data-back-passenger>Back</button></div>
+        <div class="checkout-layout">
+          <div class="panel">
+            <div class="payment-methods" aria-label="Payment methods">
+              <button class="pay-method active" data-method="UPI" type="button"><b>UPI</b><span>Available now · Pay directly to the client</span></button>
+              <button class="pay-method maintenance" type="button" disabled aria-disabled="true" title="Card payments are temporarily unavailable"><b>Debit / Credit Card</b><span>Under maintenance</span><small class="maintenance-label">COMING BACK SOON</small></button>
+              <button class="pay-method maintenance" type="button" disabled aria-disabled="true" title="Net Banking is temporarily unavailable"><b>Net Banking</b><span>Under maintenance</span><small class="maintenance-label">COMING BACK SOON</small></button>
+            </div>
+            <div id="paymentInputs" class="payment-inputs"></div>
+            <button class="primary pay-now" id="payBtn" type="button">PAY VIA UPI</button>
+          </div>
+          <aside class="panel summary"><h2>Order summary</h2><div id="paymentSummary"></div></aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="confirmation" class="page hidden">
+      <div class="content-wrap narrow">
+        <div class="success panel">
+          <div class="success-icon">✓</div><span class="eyebrow">PAYMENT STATUS</span>
+          <h1 id="confirmationTitle">Payment status</h1><p id="confirmationMessage">Your booking status will update after payment verification. Your ticket is available only after payment verification and admin confirmation.</p><p>Booking reference: <b id="confirmationId"></b></p>
+          <div id="ticketCard" class="ticket-card"></div>
+          <div class="success-actions"><button class="primary" data-nav-bookings>MY TRIPS / BOOKING STATUS</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="bookings" class="page hidden">
+      <div class="content-wrap">
+        <div class="page-title"><div><span class="eyebrow">ACCOUNT</span><h1>My Trips</h1><p>All your upcoming and past journeys in one place.</p></div><button class="secondary" data-nav-home>Book a bus</button></div>
+        <div id="bookingList" class="booking-list"></div>
+      </div>
+    </section>
+<section id="offers" class="page hidden"><div class="content-wrap"><div class="page-title"><div><span class="eyebrow">SAVINGS</span><h1>Offers & support</h1><p>Get help or save on your next trip.</p></div></div><div class="two-col"><div class="panel big-offer"><span class="eyebrow">LIMITED-TIME OFFER</span><h2>₹100 OFF your first booking</h2><p>Use <b>SABURI100</b> • Minimum booking ₹699</p><button class="secondary" data-copy="SABURI100">COPY CODE</button></div><div class="panel support-card"><span class="eyebrow">NEED HELP?</span><h2>Customer care</h2><strong>9699876399</strong><button class="primary" id="supportBtn">CONTACT SUPPORT</button></div></div></div></section>
+
+    <section id="support" class="page hidden"><div class="content-wrap narrow"><div class="panel support-page"><span class="eyebrow">HELP CENTER</span><h1>Frequently asked questions</h1><div class="faq"><button>How can I cancel a ticket?</button><div>Open My Trips, select the booking and choose Cancel.</div><button>Can I change my boarding point?</button><div>Contact support before departure to check eligibility.</div><button>Where can I download my ticket?</button><div>Open a confirmed booking and select Download Ticket.</div></div></div></div></section>
+
+    <section id="profile" class="page hidden"><div class="content-wrap"><div class="page-title"><div><span class="eyebrow">ACCOUNT</span><h1>My profile</h1><p>Account details and travel preferences.</p></div></div><div class="two-col"><div class="panel profile-card"><div class="profile-avatar" id="profileAvatar">A</div><h2 id="profileName">Aman Shaikh</h2><p id="profileEmail">Not signed in</p><span class="status success">VERIFIED</span><button class="primary" id="editProfile">EDIT PROFILE</button><button class="secondary" id="logoutBtn" style="width:100%;margin-top:8px;">LOG OUT</button></div><div class="panel"><h2>Account information</h2><div class="form-grid"><label>NAME<input id="profileFieldName"></label><label>MOBILE<input id="profileFieldMobile" value="" readonly></label><label>EMAIL<input id="profileFieldEmail" type="email"></label><label>CITY<input id="profileFieldCity"></label></div></div></div></div></section>
+  </main>
+
+   <footer class="site-footer"><div class="footer-inner"><a class="footer-brand" href="#home" aria-label="Saburi Swami Travel home">Saburi Swami Travel</a><div class="footer-links"><a href="#home" data-home-link>Home</a><a href="#popularRoutes" data-routes-link>Routes</a><a href="#offers" data-page-link="offers">Offers</a><a href="#support" data-page-link="support">Support</a></div><small>© <span id="copyrightYear"></span> Saburi Swami Travel. All rights reserved.</small></div></footer>
+   <div id="ticketModal" class="ticket-modal hidden" role="dialog" aria-modal="true" aria-labelledby="ticketModalTitle"><div class="ticket-modal-panel"><div class="ticket-modal-head"><h2 id="ticketModalTitle">Your Bus Ticket</h2><button type="button" class="icon-button" id="closeTicketModal" aria-label="Close ticket">×</button></div><div class="ticket-modal-actions"><button type="button" class="primary" id="downloadTicketBtn">⬇ Download Ticket</button><button type="button" class="secondary" id="printTicketBtn">▣ Print Ticket</button></div><div id="ticketModalContent"></div></div></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+   <script src="auth.js"></script>
+   <script src="backend-sync.js"></script>
+   <script src="app.js"></script>
+
+  </body>
+  </html>
